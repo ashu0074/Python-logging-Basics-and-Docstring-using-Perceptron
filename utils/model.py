@@ -1,3 +1,5 @@
+# model contain all model related code perceptron class present
+
 import numpy as np
 import pandas as pd
 import os
@@ -83,3 +85,7 @@ class Perceptron:
 
     def load(self, filepath):
         return joblib.load(filepath)    
+
+
+
+        
