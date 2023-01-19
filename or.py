@@ -10,17 +10,17 @@ def main(data, modelName, plotName, eta, epochs):
 
     X, y = prepare_data(df_OR)  # target col = y  default
 
-    model_or = Perceptron(eta = eta, epochs=epochs)
+    model = Perceptron(eta = eta, epochs=epochs)
     # now we call the fit method
-    model_or.fit(X,y)
+    model.fit(X,y)
 
     # also we calculate the total loss
-    _=model_or.total_loss()
+    _= model.total_loss()
 
     # to save or model
-    model_or.save(filename=modelName, model_dir = "models")
+    model.save(filename=modelName, model_dir = "models")
 
-    save_plot(df_OR, model_or, filename = plotName)
+    save_plot(df_OR,  model, filename = plotName)
 
 
 if __name__=="__main__":          # it create the entery point it mean code start with here
