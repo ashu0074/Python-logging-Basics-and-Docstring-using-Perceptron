@@ -3,10 +3,11 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import ListedColormap
-
+import logging
 
 # 1) now segrigate this so we can pass to the function
 def prepare_data(df, target_col = "y"):
+    logging.info("Preparing the data for training")
     X = df.drop(target_col , axis = 1)
     y = df[target_col]
     
@@ -15,6 +16,7 @@ def prepare_data(df, target_col = "y"):
 # 2) ploting of the graph also there
 def save_plot(df, model, filename="plot.png", plot_dir="plots"):
     def _create_base_plot(df):
+        logging.info("Creating the base plot")
         df.plot(kind="scatter", x="x1", y="x2", c="y", s=100, cmap="coolwarm")
         plt.axhline(y=0, color="black", linestyle="--", linewidth=1)
         plt.axvline(x=0, color="black", linestyle="--", linewidth=1)
@@ -23,6 +25,7 @@ def save_plot(df, model, filename="plot.png", plot_dir="plots"):
         figure.set_size_inches(10, 8)
     
     def _plot_decision_regions(X, y, classifier, resolution=0.02):
+        logging.info("Plotting the decision the region")
         colors = ("cyan", "lightgreen")
         cmap = ListedColormap(colors)
         
@@ -53,3 +56,4 @@ def save_plot(df, model, filename="plot.png", plot_dir="plots"):
     os.makedirs(plot_dir, exist_ok=True)
     plot_path = os.path.join(plot_dir, filename)
     plt.savefig(plot_path)
+    logging.info(f"Saving the log plot at {plot_path}")

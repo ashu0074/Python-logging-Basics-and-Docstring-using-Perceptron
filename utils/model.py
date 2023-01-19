@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import os
 import joblib
-
+import logging
 
 
 
@@ -13,7 +13,7 @@ class Perceptron:
         self.weights = np.random.randn(3) * 1e-4  # for small random weight we get after multiply with tiny no. 1e-4
         training = (eta is not None) and (epochs is not None)
         if training:
-            print(f"initial weights before training: \n{self.weights}\n")
+            logging.info(f"initial weights before training: \n{self.weights}\n")
         self.eta  = eta
         self.epochs = epochs
         
@@ -30,30 +30,30 @@ class Perceptron:
         
         # X with the bias weight x1w1, x2w2...
         X_with_bias = np.c_[self.X, -np.ones((len(self.X),1))]
-        print(f"X with bias: \n{X_with_bias}")
+        logging.info(f"X with bias: \n{X_with_bias}")
         
         # Epoch
         for epoch in range(self.epochs):
-            print("--"*10)
-            print(f"for epoch >> {epoch}")
-            print("--"*10)
+            logging.info("--"*10)
+            logging.info(f"for epoch >> {epoch}")
+            logging.info("--"*10)
             
             # Z dection function 
             z = self._z_outcome(X_with_bias, self.weights)
             y_hat = self.activation_function(z)
-            print(f"predicted value after forward pass:\n{y_hat}")
+            logging.info(f"predicted value after forward pass:\n{y_hat}")
             
             
             # Error:- y-yhat
             self.error = self.y - y_hat
-            print(f"Error: \n{self.error}")
+            logging.info(f"Error: \n{self.error}")
             
             
             # update weight:- (wnew = wold + eta.error.x)
             
             self.weights = self.weights + self.eta * np.dot(X_with_bias.T, self.error) # X_with_bias.transpose
-            print(f"update weights after epoch : {epoch + 1}/{self.epochs}:\n{self.weights}")
-            print("##"*10)
+            logging.info(f"update weights after epoch : {epoch + 1}/{self.epochs}:\n{self.weights}")
+            logging.info("##"*10)
             
         
     def predict(self, X):
@@ -65,7 +65,7 @@ class Perceptron:
     # total_loss is equal to sum of all error
     def total_loss(self):
         total_loss = np.sum(self.error)
-        print(f"\n total loss: {total_loss}\n")
+        logging.info(f"\n total loss: {total_loss}\n")
         return total_loss
 
     def _create_dir_return_path(self, model_dir, filename):
@@ -81,7 +81,7 @@ class Perceptron:
              # if we did not given any file name in that case we will create the model dir amd filepath for you 
             model_file_path = self._create_dir_return_path("model",filename)
             joblib.dump(self, model_file_path )
-
+        logging.info(f"model is saved at {model_file_path}")
 
     def load(self, filepath):
         return joblib.load(filepath)    

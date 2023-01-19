@@ -1,14 +1,27 @@
-
+import os
 from utils.all_utils import prepare_data, save_plot
 import pandas as pd
 from utils.model import Perceptron
-# Let's for OR gate
+# import the logging module
+import logging
 
+gate = "OR gate"
+log_dir = "logs"
+os.makedirs(log_dir, exist_ok= True)
+# logging for the basic config
+logging.basicConfig(
+    filename=os.path.join(log_dir,"running.log"),  # filename - where to store folder name with file name
+    level= logging.INFO,
+    format='[%(asctime)s: %(level name)s: %(module)s]:%(message)s',
+    filemode='a'                                                    # append mode
+
+)
 def main(data, modelName, plotName, eta, epochs):
-    df_OR = pd.DataFrame(data)
+    df = pd.DataFrame(data)
+    logging.info(f"This is raw DataSet: \n{df}")
     # Let's use the perceptron class
 
-    X, y = prepare_data(df_OR)  # target col = y  default
+    X, y = prepare_data(df)  # target col = y  default
 
     model = Perceptron(eta = eta, epochs=epochs)
     # now we call the fit method
@@ -20,7 +33,7 @@ def main(data, modelName, plotName, eta, epochs):
     # to save or model
     model.save(filename=modelName, model_dir = "models")
 
-    save_plot(df_OR,  model, filename = plotName)
+    save_plot(df,  model, filename = plotName)
 
 
 if __name__=="__main__":          # it create the entery point it mean code start with here
@@ -33,7 +46,16 @@ if __name__=="__main__":          # it create the entery point it mean code star
     ETA = 0.3
     EPOCHS = 10
 
-    main(data=OR, modelName = "or.model", plotName = "or.png", eta = ETA, epochs = EPOCHS) # in main function all the rest of the code is written
+    # there is high change of error occuring  so we use try and error block
+
+    try: 
+        logging.info(f">>>>>>>>>>> Starting the Training for {gate} <<<<<<<<<<<<<<")
+        main(data=OR, modelName = "or.model", plotName = "or.png", eta = ETA, epochs = EPOCHS) # in main function all the rest of the code is written
+        logging.info(f">>>>>>>>>>>>Ending of Training for {gate}<<<<<<<<<<<<<<<<<<\n\n\n")
+    except Exception as e:
+        logging.exception(e)
+        raise e
+
 
 
 
