@@ -10,9 +10,9 @@ log_dir = "logs"
 os.makedirs(log_dir, exist_ok= True)
 # logging for the basic config
 logging.basicConfig(
-    filename=os.path.join(log_dir,"running.log"),  # filename - where to store folder name with file name
+    filename=os.path.join(log_dir,"running_logs.log"),  # filename - where to store folder name with file name
     level= logging.INFO,
-    format='[%(asctime)s: %(level name)s: %(module)s]:%(message)s',
+    format='[%(asctime)s: %(levelname)s: %(module)s]:%(message)s',
     filemode='a'                                                    # append mode
 
 )
