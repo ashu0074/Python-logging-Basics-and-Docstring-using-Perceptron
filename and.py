@@ -2,7 +2,8 @@
 from utils.all_utils import prepare_data, save_plot
 import pandas as pd
 from utils.model import Perceptron
-# Let's for OR gate
+import logging
+# Let's for and gate
 
 def main(data, modelName, plotName, eta, epochs):
     df_AND = pd.DataFrame(data)
